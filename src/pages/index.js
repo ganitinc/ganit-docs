@@ -40,7 +40,7 @@ let projects = [
 
 let titleCard = {
   projectName: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
-  imgSrc: "/img/file_bundle.svg"
+  imgSrc: "/img/File_bundle.svg"
 };
 const ProjectTitle = (props) => (
   <div className="flex justify-center">
@@ -51,14 +51,14 @@ const ProjectTitle = (props) => (
 );
 
 const TitleCard = (props) => (
-  <div className="card w-93">
-    <div className="flex justify-center">
-      <div className="w-80 pa3 ">
+  <div className="card w-93 pa3">
+    <div className="flex flex-wrap justify-center">
+      <div className="w-80-l w-90-m w-100">
         <h2>
           <i>{props.projectName}</i>
         </h2>
       </div>
-      <div className="w-20">
+      <div className="w-20-l w-90-m w-100 flex flex-wrap justify-center">
         <img src={props.imgSrc} height="200" />
       </div>
     </div>
@@ -66,7 +66,7 @@ const TitleCard = (props) => (
 )
 
 const Card = (props) => (
-  <div className="card w-30">
+  <div className="card w-30-l w-40-m w-100">
     <div className="flex flex-column items-center pa2">
       <img src={props.imgSrc} height="150" />
       <h2 className="tc"><b>{props.projectName}</b></h2>

@@ -1,11 +1,11 @@
 module.exports = {
   title: 'Ganit Docs',
-  tagline: 'The tagline of my site',
-  url: 'https://your-docusaurus-test-site.com',
+  tagline: '',
+  url: 'https://ganit-docs.vercel.app/',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   favicon: 'img/favicon.ico',
-  organizationName: 'ganit', // Usually your GitHub org/user name.
+  organizationName: 'ganitinc', // Usually your GitHub org/user name.
   projectName: 'ganit-docs', // Usually your repo name.
   themeConfig: {
     navbar: {
