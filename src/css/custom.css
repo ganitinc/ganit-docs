@@ -1,0 +1,66 @@
+/* stylelint-disable docusaurus/copyright-header */
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #008dff;
+  --ifm-color-primary-dark: #007fe6;
+  --ifm-color-primary-darker: #0078d9;
+  --ifm-color-primary-darkest: #0063b3;
+  --ifm-color-primary-light: #1a98ff;
+  --ifm-color-primary-lighter: #269eff;
+  --ifm-color-primary-lightest: #4dafff;
+  --ifm-color-primary-lightest: #002b7c;
+  --ifm-color-ganit: #00215f;
+  --ifm-code-font-size: 95%;
+  --ifm-navbar-background-color: var(--ifm-color-ganit);
+  --ifm-navbar-link-color: var(--ifm-color-white);
+}
+
+.docusaurus-highlight-code-line {
+  background-color: rgb(72, 77, 91);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+
+.footer {
+  background: var(--ifm-navbar-background-color);
+  color: var(--ifm-color-white);
+}
+
+strong {
+  font-size: 1.25em;
+}
+
+.navbar__brand:hover {
+  color: var(--ifm-color-white);
+}
+
+img {
+  border-radius: 10px;
+}
+
+.w-93 {
+  width: 93%;
+  background: #8e97b270
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgb(6 134 183);
+  transition: 0.3s;
+  border-radius: 5px;
+  margin-bottom: 30px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px rgb(6 134 183);
+}
+
+h2 {
+  margin-top : 20px;
+}
