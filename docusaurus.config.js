@@ -17,10 +17,6 @@ module.exports = {
     },
     footer: {
       style: 'dark',
-      logo: {
-        alt: 'My Site Logo',
-        src: 'img/ganit.png',
-      },
       copyright: `Powered By Ganit, Inc.`,
     },
   },
