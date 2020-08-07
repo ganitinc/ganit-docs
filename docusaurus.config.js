@@ -45,4 +45,5 @@ module.exports = {
       type: 'text/css',
     },
   ],
+  plugins: [require.resolve('docusaurus-lunr-search')],
 };
