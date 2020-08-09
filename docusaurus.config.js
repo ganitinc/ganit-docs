@@ -46,4 +46,10 @@ module.exports = {
     },
   ],
   plugins: [require.resolve('docusaurus-lunr-search')],
+  scripts: [
+    {
+      src: '/src/pages/redirect.js',
+      async: true,
+    }
+  ]
 };

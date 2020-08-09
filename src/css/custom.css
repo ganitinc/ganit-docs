@@ -41,10 +41,6 @@ strong {
   color: var(--ifm-color-white);
 }
 
-img {
-  border-radius: 10px;
-}
-
 .w-93 {
   width: 93%;
   background: #8e97b270
@@ -63,4 +59,12 @@ img {
 
 h2 {
   margin-top : 20px;
+}
+
+input[type=text], input[type=password] {
+  box-sizing: initial;
+}
+
+.bg-ganit-blue {
+  background-color: #bdd8ee47;
 }
