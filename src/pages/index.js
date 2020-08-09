@@ -21,10 +21,6 @@ class Home extends React.Component {
     } else {
       return <LogIn checkSession={this.checkSessionStorage}/>
     }
-    // console.log(document.getElementById("__docusaurus"));
-    // return(
-    //   <div>fdfdfd</div>
-    // )
   }
 }
 

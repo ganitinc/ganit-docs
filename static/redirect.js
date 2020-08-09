@@ -5,4 +5,4 @@ window.onload = () => {
       window.location.replace(window.location.origin);
     }
   }
-} 
+}
