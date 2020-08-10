@@ -3,63 +3,121 @@ id: stockOnHand
 title: Stock On hand
 sidebar_label: Stock On Hand
 ---
-
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-
-## Name
-
-Test User
-
-
-## Description
-
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-
+The EOD closing stock. This data is refreshed on a t-1 basis where 't' is today
 
 ## Schema
+Bill
 
-Sample schema
+## Type
+Data Table
+
+## Rules
+1. If SOH < 0 then 0 else SOH
+2. shelf_life (any) and subclass = 'leafy' then 0.2
 
 ## Tables
-
-1. bill.item_hierarchy_d
-2. bill.item_attributes_d
-
+1. items_hierarchy_d
+2. store_details_d
+3. bill.sm_ll_soh_f
+4. bill.hm_ll_soh_f
 
 ## Columns Retrieved
+1. store
+2. item
+3. date 
+4. soh (processed)
 
-1. item_hierarchy_d.item_no as item
-2. item_hierarchy_d.subclass
-3. stock_holding_factor
+## Filters
+1. Department : "Fruits", "Vegetables"
+2. dc_city : "bangalore", "pune"...
+3. store.isactive : 1 (only active stores)
+4. store.format : "HM", "SM"
 
+## Joins
+1. item_hierarchy_d.item_no (inner join) bill.sm_ll_soh_f.item and bill.hm_ll_soh_f.item
+2. bill.store_details_d.location_code (inner join) bill.sm_ll_soh_f.loc and bill.hm_ll_soh_f.item
 
-## Parameters
+## Group By
+1. store
+2. item
+3. date
 
-1. item_hierarchy_d.subclass 
+## Alternative Tables
+ganit.soh_indent - This table has both 
 
 ## Query
-
 ```sql
+( With SM_HM_Stock as
 (
-    "With SM_HM_Stock as(SELECT sm.loc, sm.item, trunc(sm.DATE) AS DATE, sm.Stock_on_Hand FROM  "
-    "bill.sm_ll_soh_f sm (NOLOCK) Where trunc(sm.DATE) BETWEEN %s AND %s "
-    "Union ALL SELECT hm.loc, hm.item, trunc(hm.DATE) AS DATE, hm.stock_on_hand FROM  "
-    "bill.hm_ll_soh_f hm (NOLOCK) Where trunc(hm.DATE) BETWEEN %s AND %s) "
-    "Select sm.loc, sm.item, sm.DATE, (case when SUM(sm.stock_on_hand) < 0 then 0 Else SUM("
-    "sm.stock_on_hand) END)  AS stock_on_hand From SM_HM_Stock sm (NOLOCK) Join "
-    "bill.store_details_d store (NOLOCK) on sm.loc = store.location_code Join "
-    "bill.item_hierarchy_d it (NOLOCK) on sm.item = it.Item_no WHERE LOWER(store.dc_city) IN ("
-    "{city}) AND  LOWER(store.location_type) = 'store' AND store.isactive = 1 AND "
-    "store.format   In ({{format}}) AND it.department IN ({{{{department}}}}) GROUP BY sm.loc, "
-    "sm.item, sm.DATE ORDER BY sm.loc, sm.item, sm.DATE "
+   SELECT
+      sm.loc,
+      sm.item,
+      trunc(sm.DATE) AS DATE,
+      sm.Stock_on_Hand 
+   FROM
+      bill.sm_ll_soh_f sm (NOLOCK) 
+   Where
+      trunc(sm.DATE) BETWEEN % s AND % s 
+   Union ALL
+   SELECT
+      hm.loc,
+      hm.item,
+      trunc(hm.DATE) AS DATE,
+      hm.stock_on_hand 
+   FROM
+      bill.hm_ll_soh_f hm (NOLOCK) 
+   Where
+      trunc(hm.DATE) BETWEEN % s AND % s
 )
+Select
+   sm.loc, sm.item, sm.DATE, 
+   (
+      case
+         when
+            SUM(sm.stock_on_hand) < 0 
+         then
+            0 
+         Else
+            SUM( sm.stock_on_hand) 
+      END
+   )
+   AS stock_on_hand 
+From
+   SM_HM_Stock sm (NOLOCK) 
+   Join
+      bill.store_details_d store (NOLOCK) 
+      on sm.loc = store.location_code 
+   Join
+      bill.item_hierarchy_d it (NOLOCK) 
+      on sm.item = it.Item_no 
+WHERE
+   LOWER(store.dc_city) IN 
+   (
+      {city}
+   )
+   AND LOWER(store.location_type) = 'store' 
+   AND store.isactive = 1 
+   AND store.format In 
+   (
+      {{format}}
+   )
+   AND it.department IN 
+   (
+      {{{{department}}}}
+   )
+GROUP BY
+   sm.loc, sm.item, sm.DATE 
+ORDER BY
+   sm.loc, sm.item, sm.DATE )
 ```
+## Comments
+{city}, {{format}}, {{{{department}}}} ------ {} - Brackets would increase by a power of 2 as the values are stored in different objects. In other cases "%s" will work
 
 ## Author
-User 1
+Vijaymurugan Duraisamy
 
 ## Reviewed By
-User 2
+Vijaymurugan Duraisamy
 
 ## Version
-0.1
+1.0.0

@@ -65,6 +65,6 @@ input[type=text], input[type=password] {
   box-sizing: initial;
 }
 
-.bg-ganit-blue {
-  background-color: #bdd8ee47;
+.ganit-blue {
+  color:var(--ifm-color-ganit);
 }

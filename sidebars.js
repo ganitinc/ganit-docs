@@ -1,10 +1,3 @@
-// module.exports = {
-//   someSidebar: {
-//     Docusaurus: ['doc1', 'doc2', 'doc3'],
-//     Features: ['mdx'],
-//   },
-// };
-
 module.exports = {
   docs: [
     {
@@ -13,7 +6,7 @@ module.exports = {
       items: [
         {
           type: 'category',
-          label: 'Auto Indent',
+          label: 'F&V Forecasting and Indentation',
           items: [
             {
               type: 'category',

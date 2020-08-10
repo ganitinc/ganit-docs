@@ -3,45 +3,40 @@ id: stockHoldingFactor
 title: Stock Holding Factor
 sidebar_label: Stock Holding Factor
 ---
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-
-## Name
-
-Test User
-
-
-## Description
-
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-
+The additional stock that has to be ordered (a delta on balance stock) for safety stock and to ensure that the crates do not look empty
 
 ## Schema
+Bill
 
-Sample schema
+## Type
+Master
+
+## Rules
+1. shelf_life is in (1, 2, 3) and subclass not leafy then shf = 0.1
+2. shelf_life (any) and subclass = 'leafy' then 0.2
+3. if shelf_life is 4 then shf = 0.3
+4. All the other cases shf = 0.4
 
 ## Tables
-
-1. bill.item_hierarchy_d
-2. bill.item_attributes_d
-
+1. Item Master ("items_hierarchy_d","item_attirbutes_d")
 
 ## Columns Retrieved
+1. item
+2. subclass (this will not be required once we get SOH reset flag)
+3. Shelf_life Flag
 
-1. item_hierarchy_d.item_no as item
-2. item_hierarchy_d.subclass
-3. stock_holding_factor
+## Filters
+1. Department : "Fruits", "Vegetables"
 
-
-## Parameters
-
-1. item_hierarchy_d.subclass 
+## Joins
+1. item_attributes_dbutes_d.item_no (inner join) item_hierarchy_d.item_no
 
 ## Query
-
 ```sql
-select
-   item_hierarchy_d.item_no as item,
-   item_hierarchy_d.subclass,
+( 
+select 
+   item_hierarchy_d.item_no as item, 
+   item_hierarchy_d.subclass, 
    (
       CASE
          WHEN
@@ -82,12 +77,14 @@ Where
    )
 )
 ```
+## Comments 
+Pumpkin ('100112069') would have SOH = 0 as it has an inner join. (This was addresses later). For 'leafy' subclass = SOH = 0.2,
 
 ## Author
-User 1
+Vijaymurugan Duraisamy
 
 ## Reviewed By
-User 2
+Vijaymurugan Duraisamy
 
 ## Version
-0.1
+1.0.0

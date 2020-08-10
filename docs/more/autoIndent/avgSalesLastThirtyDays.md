@@ -3,51 +3,107 @@ id: avgSalesLastThirtyDays
 title: Average Sales Last Thirty Days
 sidebar_label: Average Sales Last Thirty Days
 ---
-
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-
-## Name
-
-Test User
-
-
-## Description
-
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-
+This table uses historical average sales (30 days rolling average) to calculate Expected Closing Stock(t+2) as a part of indent calculation
 
 ## Schema
+Bill
 
-Sample schema
+## Type
+Data Table 
 
 ## Tables
-
-1. bill.item_hierarchy_d
-2. bill.item_attributes_d
-
+1. bill.sm_tran_f
+2. bill.store_details
+3. bill.item_hierarchy_d
+4. bill.hm_tran_f has to be added
 
 ## Columns Retrieved
+1. store
+2. item
+3. sales_qty
+4. (#dc_city, format, department are redundant)
 
-1. item_hierarchy_d.item_no as item
-2. item_hierarchy_d.subclass
-3. stock_holding_factor
+## Filters
+1. [stores in  [dc_city : "bangalore", "pune"...], [store.isactive : 1 (only active stores)]] AND
+2. [items in [Department : "Fruits", "Vegetables"] AND
+3. [store.format : "HM", "SM"], [transaction type : "Sale"], [sub_tran_type : 'OFFLIN'] AND
+4. Between Dates [ Date range input]
 
-
-## Parameters
-
-1. item_hierarchy_d.subclass 
+## Group By
+1. loc
+2. item (# Date is optional depending upon the sql query)
 
 ## Query
-
 ```sql
-"SELECT location_code AS loc,item_no AS item, Sum(bill_qty)/30 AS sales_qty, ""Sum (bill_value)/30 AS realised_sales FROM bill.sm_tran_f WHERE trunc(""tran_datetime) >= %s AND (bill_qty >= 0) AND tran_type = 'SALE' AND sub_tran_type = ""'OFFLIN' AND (location_code IN (SELECT location_code AS loc FROM " "bill.store_details_d WHERE  Lower(dc_city) IN ( {city}) AND (Lower(" "location_type) = 'store') AND isactive = 1 AND format in ( {{format}}))) AND (item_no IN ( " "SELECT item_no FROM   bill.item_hierarchy_d WHERE  department IN ( {{{{department}}}}))) GROUP BY loc,item "
+SELECT
+   location_code AS loc,
+   item_no AS item,
+   Sum(bill_qty) / 30 AS sales_qty,
+   Sum (bill_value) / 30 AS realised_sales 
+FROM
+   bill.sm_tran_f 
+WHERE
+   trunc( tran_datetime) >= % s 
+   AND 
+   (
+      bill_qty >= 0
+   )
+   AND tran_type = 'SALE' 
+   AND sub_tran_type = 'OFFLIN' 
+   AND 
+   (
+      location_code IN 
+      (
+         SELECT
+            location_code AS loc 
+         FROM
+            bill.store_details_d 
+         WHERE
+            Lower(dc_city) IN 
+            (
+               {city}
+            )
+            AND 
+            (
+               Lower( location_type) = 'store'
+            )
+            AND isactive = 1 
+            AND format in 
+            (
+               {{format}}
+            )
+      )
+   )
+   AND 
+   (
+      item_no IN 
+      (
+         SELECT
+            item_no 
+         FROM
+            bill.item_hierarchy_d 
+         WHERE
+            department IN 
+            (
+               {{{{department}}}}
+            )
+      )
+   )
+GROUP BY
+   loc,
+   item
 ```
 
+## Comments 
+1. Note that items without any sale on a day will have no entry and should be considered zero. Hence, we divide by 30 to get average 
+2. Should not use average on bill_qty as this is a transaction table. The data must be aggregated (summed if daily sales is required) and then another aggregation (say average) should be on top of that.
+3. This code does not have bill.hm_tran_f and has to be modified if needed
+
 ## Author
-User 1
+Vijaymurugan Duraisamy
 
 ## Reviewed By
-User 2
+Vijaymurugan Duraisamy
 
 ## Version
-0.1
+1.0.0

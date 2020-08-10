@@ -8,14 +8,14 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 let projects = [
   {
     projectName: "MORE (SQL)",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+    description: "SQL queries collections across all More Projects. Each collection is a well-structured document that helps you to quickly find SQL queries which is been already solved for some of the projects at More.",
     doc: "more/autoIndent/actualIndent",
     imgSrc: "/img/database.svg"
   }
 ];
 
 let titleCard = {
-  projectName: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+  projectName: "A centralized document repository of Ganit. It could be SQL, FAQ, links to your code repository, or name anything. This repository runs on top of Git. You can create your documents in the format of .md and can be centrally managed. Inbuilt search helps you to quickly search any document across clients and find quick tips to write a better document.",
   imgSrc: "/img/File_bundle.svg"
 };
 const ProjectTitle = (props) => (
@@ -35,7 +35,7 @@ const TitleCard = (props) => (
         </h2>
       </div>
       <div className="w-20-l w-90-m w-100 flex flex-wrap justify-center">
-        <img src={props.imgSrc} height="200" />
+        <img src={props.imgSrc} height="150" />
       </div>
     </div>
   </div>

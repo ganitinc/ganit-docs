@@ -34,51 +34,58 @@ export default class LogIn extends React.Component {
   }
   render() {
     return (
-      <Container component="main" maxWidth="xs" >
+      <Container component="main">
         <CssBaseline />
         <div style={{ display: this.state.errorDisplay }} className="w-20 bg-red white tc br4 pa3 mr3 f5 mt5 absolute top-0 right-0">{this.state.errMessage}</div>
-        <div className="flex flex-column items-center pa4 bg-ganit-blue br4 b--solid" style={{ marginTop: 100 }}>
-          <div>
-            <img src="/img/ganit.png" className="br-100" />
+        <div style={{ marginTop: 50 }} className="flex flex-wrap items-center">
+          <img src="img/favicon.ico" height="51" />
+          <div className="ml3 f2  b i ganit-blue">Ganit Docs</div>
+        </div>
+        <div className="flex flex-wrap justify-around" style={{ marginTop: 100 }}>
+          <img src="/img/my_files.svg" height="400" width="600" />
+          <div className="flex flex-column items-center pa4">
+            <div>
+              <h1 className="f1">Welcome Back &#128526;</h1>
+            </div>
+            <form>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Username"
+                name="username"
+                autoComplete="email"
+                autoFocus
+                value={this.state.userName}
+                onChange={this.handleUserName}
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={this.state.password}
+                onChange={this.handlePassword}
+              />
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                style={{ marginTop: 16, borderRadius: 50 ,backgroundColor: '#00215f'}}
+                onClick={this.logIn}
+                className="w-50 fr"
+              >
+                Log In
+              </Button>
+            </form>
           </div>
-          <form>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Username"
-              name="username"
-              autoComplete="email"
-              autoFocus
-              value={this.state.userName}
-              onChange={this.handleUserName}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={this.state.password}
-              onChange={this.handlePassword}
-            />
-          </form>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            style={{ marginTop: 16 }}
-            onClick={this.logIn}
-          >
-            Log In
-        </Button>
         </div>
       </Container >
     )
