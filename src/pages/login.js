@@ -45,7 +45,7 @@ export default class LogIn extends React.Component {
           <img src="/img/my_files.svg" height="400" width="600" />
           <div className="flex flex-column items-center pa4">
             <div>
-              <h1 className="f1">Welcome Back &#128526;</h1>
+              <h1 className="f1">Welcome Back ! &#128526;</h1>
             </div>
             <form>
               <TextField
